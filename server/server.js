@@ -2,6 +2,7 @@ import express from 'express'
 import showRequests from './showRequests.js'
 import superheroController from './superhero/superheroController.js'
 import someDataController from './someData/someDataController.js'
+import { disconnectDb } from './db.js'
 
 const port = process.env.PORT || 3000
 const app = express()
@@ -13,6 +14,11 @@ app.use(express.json())
 app.use('/api/superhero', superheroController)
 app.use('/api/somedata', someDataController)
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log('Server listening on port ' + port)
+})
+
+server.on('close',() => {
+    console.log('Closing mongo connection')
+    disconnectDb()
 })
