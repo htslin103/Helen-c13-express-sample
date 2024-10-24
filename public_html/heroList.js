@@ -1,10 +1,7 @@
 import { getSuperheroes } from "./api.js"
 
-console.log("Hello, project 2!")
-
-async function generateHeroList() {
-    const listElement = document.getElementById('heroList')
-    listElement.replaceChildren('Loading...')
+export async function generateHeroList(element, setSelectedHeroId) {
+    element.replaceChildren('Loading...')
 
     const superheroes = await getSuperheroes()
 
@@ -19,19 +16,13 @@ async function generateHeroList() {
         row.insertAdjacentHTML("beforeend", 
             `<td>${ hero.name }</td><td>${ hero.powers.join(', ') }</td>`
         )    
-        row.onclick = () => setSelectedHero(hero.id)
+        row.onclick = () => setSelectedHeroId(hero._id)
         tbody.append(row)
     })
     
     const refreshButton = document.createElement('button')
     refreshButton.append('Refresh')
-    refreshButton.onclick = generateHeroList
+    refreshButton.onclick = () => generateHeroList(element)
 
-    listElement.replaceChildren(table, refreshButton)
+    element.replaceChildren(table, refreshButton)
 }
-
-function setSelectedHero(id) {
-    console.log('Selecting hero: ' + id)
-}
-
-generateHeroList()
