@@ -10,7 +10,6 @@ export async function findAllSuperheroes() {
 
 export async function findSuperheroById(id) {
     const heroCollection  = await collection('heroes')
-    console.log(heroCollection)
     const singleHero =  await heroCollection.findOne({_id: new ObjectId(id)})
     return singleHero
 }
